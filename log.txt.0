@@ -1,6 +1,40 @@
-дек. 12, 2017 4:02:37 ДП ChatServer <init>
+дек. 12, 2017 4:47:45 ДП ChatServer <init>
 INFO: Сервер запущен
-дек. 12, 2017 4:02:44 ДП ChatServer ConnectionReady
+дек. 12, 2017 4:47:58 ДП ChatServer ConnectionReady
 INFO: Пользователь подключился
-дек. 12, 2017 4:03:09 ДП ChatServer Disconnect
+дек. 12, 2017 4:48:06 ДП ChatServer ConnectionReady
+INFO: Пользователь подключился
+дек. 12, 2017 4:48:19 ДП ChatServer Exception
+SEVERE: Exception: 
+java.net.SocketException: Connection reset
+	at java.base/java.net.SocketInputStream.read(SocketInputStream.java:210)
+	at java.base/java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at java.base/sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at java.base/sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at java.base/sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.base/java.io.InputStreamReader.read(InputStreamReader.java:185)
+	at java.base/java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.base/java.io.BufferedReader.readLine(BufferedReader.java:326)
+	at java.base/java.io.BufferedReader.readLine(BufferedReader.java:392)
+	at Connection$1.run(Connection.java:29)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+
+дек. 12, 2017 4:48:19 ДП ChatServer Disconnect
+INFO: Пользователь отключился 
+дек. 12, 2017 4:48:20 ДП ChatServer Exception
+SEVERE: Exception: 
+java.net.SocketException: Connection reset
+	at java.base/java.net.SocketInputStream.read(SocketInputStream.java:210)
+	at java.base/java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at java.base/sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at java.base/sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at java.base/sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.base/java.io.InputStreamReader.read(InputStreamReader.java:185)
+	at java.base/java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.base/java.io.BufferedReader.readLine(BufferedReader.java:326)
+	at java.base/java.io.BufferedReader.readLine(BufferedReader.java:392)
+	at Connection$1.run(Connection.java:29)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+
+дек. 12, 2017 4:48:20 ДП ChatServer Disconnect
 INFO: Пользователь отключился 

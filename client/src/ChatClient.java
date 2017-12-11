@@ -1,26 +1,23 @@
 import javax.swing.*;
-import javax.swing.plaf.BorderUIResource;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-public class ChatClient extends JFrame implements ActionListener , TCPconnectionListener{
+public class ChatClient extends JFrame implements ActionListener , ConnectionEvents {
 
     private static final String ip = "localhost";
     private static final int port = 2222;
-    private static final int WIDTH = 600;
-    private static final int HEIGHT = 400;
 
     private final JTextArea messagesField = new JTextArea();
     private final JTextField fNickname = new JTextField();
     private final JTextField fMessage = new JTextField();
-    private TCPconnection connection;
+    private Connection connection;
 
     private ChatClient()
     {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(WIDTH, HEIGHT);
+        setSize(600, 400);
         setLocationRelativeTo(null);
         setAlwaysOnTop(true);
         setVisible(true);
@@ -32,9 +29,9 @@ public class ChatClient extends JFrame implements ActionListener , TCPconnection
         add(fMessage, BorderLayout.SOUTH);
 
         try {
-            connection = new TCPconnection(this , ip, port);
+            connection = new Connection(this , ip, port);
         } catch (IOException e) {
-            printMsg("Connection exception: " + e);
+            printMessage("Connection exception: " + e);
         }
     }
 
@@ -43,30 +40,30 @@ public class ChatClient extends JFrame implements ActionListener , TCPconnection
         String msg = fMessage.getText();
         if(msg.equals("")) return;
         fMessage.setText(null);
-        connection.sendString(fNickname.getText() + ": " + msg);
+        connection.SendString(fNickname.getText() + ": " + msg);
     }
 
     @Override
-    public void ConnectionReady(TCPconnection tcpconnection) {
-        printMsg("Соединение установлено");
+    public void ConnectionReady(Connection connection) {
+        printMessage("Соединение установлено");
     }
 
     @Override
-    public void ReceiveString(TCPconnection tcpconnection, String value) {
-        printMsg(value);
+    public void ReceiveString(Connection connection, String value) {
+        printMessage(value);
     }
 
     @Override
-    public void Disconnect(TCPconnection tcpconnection) {
-        printMsg("Соединение закрыто");
+    public void Disconnect(Connection connection) {
+        printMessage("Соединение закрыто");
     }
 
     @Override
-    public void Exception(TCPconnection tcPconnection, Exception e) {
-        printMsg("Connection exception: " + e);
+    public void Exception(Connection connection, Exception e) {
+        printMessage("Connection exception: " + e);
     }
 
-    private synchronized void printMsg(String msg)
+    private synchronized void printMessage(String msg)
     {
         SwingUtilities.invokeLater(new Runnable() {
             @Override

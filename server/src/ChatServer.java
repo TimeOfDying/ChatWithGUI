@@ -1,16 +1,14 @@
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-public class ChatServer implements TCPconnectionListener{
+public class ChatServer implements ConnectionEvents {
 
     private static Logger log = Logger.getLogger(ChatServer.class.getName());
-    private final ArrayList<TCPconnection> connectionsList = new ArrayList<>();
+    private final ArrayList<Connection> connectionsList = new ArrayList<>();
 
     private ChatServer()
     {
@@ -21,7 +19,7 @@ public class ChatServer implements TCPconnectionListener{
             {
                 try
                 {
-                    new TCPconnection(this, serverSocket.accept());
+                    new Connection(this, serverSocket.accept());
 
                 } catch (IOException e)
                 {
@@ -35,28 +33,28 @@ public class ChatServer implements TCPconnectionListener{
     }
 
     @Override
-    public synchronized void ConnectionReady(TCPconnection tcpconnection) {
-        connectionsList.add(tcpconnection);
+    public synchronized void ConnectionReady(Connection connection) {
+        connectionsList.add(connection);
         log.log(Level.INFO, "Пользователь подключился");
-        sendToAllUsers("Пользователь подключился: " + tcpconnection);
+        sendToAllUsers("Пользователь подключился: " + connection);
     }
 
     @Override
-    public synchronized void ReceiveString(TCPconnection tcpconnection, String value) {
+    public synchronized void ReceiveString(Connection connection, String value) {
         sendToAllUsers(value);
     }
 
     @Override
-    public synchronized void Disconnect(TCPconnection tcpconnection) {
-        connectionsList.remove(tcpconnection);
+    public synchronized void Disconnect(Connection connection) {
+        connectionsList.remove(connection);
         log.log(Level.INFO, "Пользователь отключился ");
-        sendToAllUsers("Пользователь отключился: " + tcpconnection);
+        sendToAllUsers("Пользователь отключился: " + connection);
 
     }
 
     @Override
-    public synchronized void Exception(TCPconnection tcPconnection, Exception e) {
-        System.out.println("TCPConnection exception: " + e);
+    public synchronized void Exception(Connection connection, Exception e) {
+        log.log(Level.SEVERE, "Exception: ", e);
     }
 
     private void sendToAllUsers(String msg)
@@ -64,7 +62,7 @@ public class ChatServer implements TCPconnectionListener{
         System.out.println(msg);
         for(int i=0;i<connectionsList.size(); i++)
         {
-            connectionsList.get(i).sendString(msg);
+            connectionsList.get(i).SendString(msg);
         }
     }
 

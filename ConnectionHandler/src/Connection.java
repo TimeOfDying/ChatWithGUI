@@ -3,20 +3,16 @@
 import java.io.*;
 import java.net.Socket;
 
-public class TCPconnection {
+public class Connection {
 
     private final Socket socket;
     private final Thread thread;
-    private TCPconnectionListener eventListener;
+    private ConnectionEvents eventListener;
     private final BufferedReader in;
     private final BufferedWriter out;
 
-    public TCPconnection(TCPconnectionListener eventListener, String ip, int port) throws IOException
-    {
-        this(eventListener, new Socket(ip,port));
-    }
 
-    public TCPconnection(TCPconnectionListener eventListener, Socket socket) throws IOException
+    public Connection(ConnectionEvents eventListener, Socket socket) throws IOException
     {
         this.eventListener = eventListener;
         this.socket = socket;
@@ -27,17 +23,17 @@ public class TCPconnection {
             @Override
             public void run() {
                 try {
-                    eventListener.ConnectionReady(TCPconnection.this);
+                    eventListener.ConnectionReady(Connection.this);
                     while(!thread.isInterrupted())
                     {
                         String msg = in.readLine();
-                        eventListener.ReceiveString(TCPconnection.this, msg);
+                        eventListener.ReceiveString(Connection.this, msg);
                     }
                     String msg = in.readLine();
                 } catch (IOException e) {
-                    eventListener.Exception(TCPconnection.this, e);
+                    eventListener.Exception(Connection.this, e);
                 } finally {
-                    eventListener.Disconnect(TCPconnection.this);
+                    eventListener.Disconnect(Connection.this);
 
                 }
             }
@@ -45,31 +41,36 @@ public class TCPconnection {
         thread.start();
     }
 
-    public synchronized void sendString(String msg)
+    public Connection(ConnectionEvents eventListener, String ip, int port) throws IOException
+    {
+        this(eventListener, new Socket(ip,port));
+    }
+
+    public synchronized void SendString(String msg)
     {
         try {
             out.write(msg + "\r\n");
             out.flush();
         } catch (IOException e) {
-            eventListener.Exception(TCPconnection.this, e);
-            disconnect();
+            eventListener.Exception(Connection.this, e);
+            Disconnect();
         }
     }
 
-    public synchronized void disconnect()
+    public synchronized void Disconnect()
     {
         thread.interrupt();
         try {
             socket.close();
         } catch (IOException e) {
-            eventListener.Exception(TCPconnection.this, e);
+            eventListener.Exception(Connection.this, e);
         }
     }
 
     @Override
     public String toString()
     {
-        return "TCPConnection: " + socket.getInetAddress()+ ": " + socket.getPort();
+        return socket.getInetAddress()+ ": " + socket.getPort();
     }
 
 }
