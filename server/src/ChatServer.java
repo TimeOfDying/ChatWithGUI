@@ -49,7 +49,7 @@ public class ChatServer implements TCPconnectionListener{
     @Override
     public synchronized void onDisconnect(TCPconnection tcpconnection) {
         connectionsList.remove(tcpconnection);
-        log.log(Level.INFO, "Пользователь отключился " + ZonedDateTime.now().format(DateTimeFormatter.RFC_1123_DATE_TIME));
+        log.log(Level.INFO, "Пользователь отключился ");
         sendToAllUsers("Пользователь отключился: " + tcpconnection);
 
     }
