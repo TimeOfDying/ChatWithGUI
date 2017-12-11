@@ -35,19 +35,19 @@ public class ChatServer implements TCPconnectionListener{
     }
 
     @Override
-    public synchronized void onConnectionReady(TCPconnection tcpconnection) {
+    public synchronized void ConnectionReady(TCPconnection tcpconnection) {
         connectionsList.add(tcpconnection);
         log.log(Level.INFO, "Пользователь подключился");
         sendToAllUsers("Пользователь подключился: " + tcpconnection);
     }
 
     @Override
-    public synchronized void onReceiveString(TCPconnection tcpconnection, String value) {
+    public synchronized void ReceiveString(TCPconnection tcpconnection, String value) {
         sendToAllUsers(value);
     }
 
     @Override
-    public synchronized void onDisconnect(TCPconnection tcpconnection) {
+    public synchronized void Disconnect(TCPconnection tcpconnection) {
         connectionsList.remove(tcpconnection);
         log.log(Level.INFO, "Пользователь отключился ");
         sendToAllUsers("Пользователь отключился: " + tcpconnection);
@@ -55,7 +55,7 @@ public class ChatServer implements TCPconnectionListener{
     }
 
     @Override
-    public synchronized void onException(TCPconnection tcPconnection, Exception e) {
+    public synchronized void Exception(TCPconnection tcPconnection, Exception e) {
         System.out.println("TCPConnection exception: " + e);
     }
 

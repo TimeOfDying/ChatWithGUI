@@ -6,7 +6,7 @@ import java.net.Socket;
 public class TCPconnection {
 
     private final Socket socket;
-    private final Thread rxThread;
+    private final Thread thread;
     private TCPconnectionListener eventListener;
     private final BufferedReader in;
     private final BufferedWriter out;
@@ -23,26 +23,26 @@ public class TCPconnection {
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 
-        rxThread = new Thread(new Runnable() {
+        thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    eventListener.onConnectionReady(TCPconnection.this);
-                    while(!rxThread.isInterrupted())
+                    eventListener.ConnectionReady(TCPconnection.this);
+                    while(!thread.isInterrupted())
                     {
                         String msg = in.readLine();
-                        eventListener.onReceiveString(TCPconnection.this, msg);
+                        eventListener.ReceiveString(TCPconnection.this, msg);
                     }
                     String msg = in.readLine();
                 } catch (IOException e) {
-                    eventListener.onException(TCPconnection.this, e);
+                    eventListener.Exception(TCPconnection.this, e);
                 } finally {
-                    eventListener.onDisconnect(TCPconnection.this);
+                    eventListener.Disconnect(TCPconnection.this);
 
                 }
             }
         });
-        rxThread.start();
+        thread.start();
     }
 
     public synchronized void sendString(String msg)
@@ -51,18 +51,18 @@ public class TCPconnection {
             out.write(msg + "\r\n");
             out.flush();
         } catch (IOException e) {
-            eventListener.onException(TCPconnection.this, e);
+            eventListener.Exception(TCPconnection.this, e);
             disconnect();
         }
     }
 
     public synchronized void disconnect()
     {
-        rxThread.interrupt();
+        thread.interrupt();
         try {
             socket.close();
         } catch (IOException e) {
-            eventListener.onException(TCPconnection.this, e);
+            eventListener.Exception(TCPconnection.this, e);
         }
     }
 

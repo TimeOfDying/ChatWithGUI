@@ -1,10 +1,6 @@
-дек. 11, 2017 10:47:15 ПП ChatServer <init>
+дек. 12, 2017 4:02:37 ДП ChatServer <init>
 INFO: Сервер запущен
-дек. 11, 2017 10:47:19 ПП ChatServer onConnectionReady
+дек. 12, 2017 4:02:44 ДП ChatServer ConnectionReady
 INFO: Пользователь подключился
-дек. 11, 2017 10:47:36 ПП ChatServer onConnectionReady
-INFO: Пользователь подключился
-дек. 11, 2017 10:48:09 ПП ChatServer onDisconnect
-INFO: Пользователь отключился Mon, 11 Dec 2017 22:48:09 +0500
-дек. 11, 2017 10:48:09 ПП ChatServer onDisconnect
-INFO: Пользователь отключился Mon, 11 Dec 2017 22:48:09 +0500
+дек. 12, 2017 4:03:09 ДП ChatServer Disconnect
+INFO: Пользователь отключился 

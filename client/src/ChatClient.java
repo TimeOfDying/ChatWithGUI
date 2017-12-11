@@ -47,22 +47,22 @@ public class ChatClient extends JFrame implements ActionListener , TCPconnection
     }
 
     @Override
-    public void onConnectionReady(TCPconnection tcpconnection) {
-        printMsg("Connection ready");
+    public void ConnectionReady(TCPconnection tcpconnection) {
+        printMsg("Соединение установлено");
     }
 
     @Override
-    public void onReceiveString(TCPconnection tcpconnection, String value) {
+    public void ReceiveString(TCPconnection tcpconnection, String value) {
         printMsg(value);
     }
 
     @Override
-    public void onDisconnect(TCPconnection tcpconnection) {
-        printMsg("Connection close");
+    public void Disconnect(TCPconnection tcpconnection) {
+        printMsg("Соединение закрыто");
     }
 
     @Override
-    public void onException(TCPconnection tcPconnection, Exception e) {
+    public void Exception(TCPconnection tcPconnection, Exception e) {
         printMsg("Connection exception: " + e);
     }
 
